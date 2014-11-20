@@ -1,1 +1,33 @@
 At two weeks in, you need to turn in working DNS servers and caching HTTP clients. The remainder of your time will be spent on the CDN logic that links them together. This is due on November 25th, 2014 at 
+
+
+
+dns is started, it currently can return a predefined ip address for a given domain
+
+
+run with
+```
+ sudo python dnsserver.py
+```
+
+
+then test with
+```
+ dig @127.0.0.1 whataver.com
+```
+
+it should return an arbitrary ip for the given domain name
+
+
+http is started, it currently handles get request returing the string "Welcome!"
+
+
+run with
+```
+python httpserver.py
+```
+
+then test with
+```
+curl localhost:8000
+```
