@@ -1,4 +1,6 @@
+#!/usr/bin/python
 import socket, sys
+from hosts import hosts
 
 class Query:
     def __init__(self, data):

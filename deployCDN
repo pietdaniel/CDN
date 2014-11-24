@@ -1,0 +1,7 @@
+#!/bin/bash
+
+
+#for each host
+cd ~/CDN
+git reset --hard
+git pull origin master

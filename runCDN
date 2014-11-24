@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cd ~/CDN
+chmod +x dnsserver
+./dnsserver
