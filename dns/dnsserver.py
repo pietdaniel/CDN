@@ -37,7 +37,7 @@ class Query:
 def main():
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        s.bind(('',53))
+        s.bind(('',49153))
     except Exception, e:
         print 'failed to create socket %s' % e
         sys.exit(1)
