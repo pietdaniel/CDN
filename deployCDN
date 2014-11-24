@@ -3,5 +3,5 @@
 
 #for each host
 cd ~/CDN
-git reset origin master --hard
+git reset --hard
 git pull origin master
