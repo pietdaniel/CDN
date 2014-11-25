@@ -6,7 +6,7 @@ site_origin = ""
 
 class HttpHandler(BaseHTTPRequestHandler):
     def do_GET(self):
-        request = "http://" + origin + ":8080" + self.path
+        request = "http://" + site_origin + ":8080" + self.path
         response = urllib2.urlopen(request)
         self.send_response(200)
         self.send_header('Content-type','text/html')
