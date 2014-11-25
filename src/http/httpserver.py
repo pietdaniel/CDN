@@ -1,10 +1,12 @@
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 import urllib2
 
+site_origin = ""
+
+
 class HttpHandler(BaseHTTPRequestHandler):
     def do_GET(self):
-        origin = "ec2-54-164-51-70.compute-1.amazonaws.com:8080"
-        request = "http://" + origin + self.path
+        request = "http://" + origin + ":8080" + self.path
         print request
         response = urllib2.urlopen(request)
         self.send_response(200)
@@ -14,6 +16,7 @@ class HttpHandler(BaseHTTPRequestHandler):
         return
 
 def run(port, origin):
+    site_origin = origin
     try:
         server = HTTPServer(("",port),HttpHandler)
         print "Started server at ", server.socket.getsockname()
