@@ -17,6 +17,8 @@ class HttpHandler(BaseHTTPRequestHandler):
 
 def run(port, origin):
     site_origin = origin
+    print origin
+    print site_origin
     try:
         server = HTTPServer(("",port),HttpHandler)
         print "Started server at ", server.socket.getsockname()
