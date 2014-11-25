@@ -11,7 +11,7 @@ class HttpHandler(BaseHTTPRequestHandler):
 def run(port, origin):
     try:
         server = HTTPServer(("",port),HttpHandler)
-        print "Started server on %d" % port
+        print "Started server at ", server.socket.getsockname()
         server.serve_forever()
     except KeyboardInterrupt:
         print "Keyboard Interrupt"
