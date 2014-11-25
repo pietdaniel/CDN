@@ -1,45 +1,13 @@
-#!/usr/bin/python
-import socket, sys
+import socket, sys, os, re
+from query import Query
 
-class Query:
-    def __init__(self, data):
-        self.data = data
-        self.domain=''
-
-        # parse out domain
-        opcode = (ord(data[2]) >> 3) & 15
-        if opcode == 0:
-            cursor = 12
-            length = ord(data[cursor])
-            while length!=0:
-                self.domain+=data[cursor+1:cursor+length+1]+'.'
-                cursor+=length+1
-                length=ord(data[cursor])
-
-    def answer(self, ip):
-        packet=''
-        if self.domain:
-            packet+=self.data[:2] + "\x81\x80"
-            # q/a counts
-            packet+=self.data[4:6] + self.data[4:6] + '\x00\x00\x00\x00'
-            # original dns q
-            packet+=self.data[12:len(self.data)-11]
-            # point to domain name
-            packet+='\xc0\x0c'
-            # response type, ttl, length
-            packet+='\x00\x01\x00\x01\x00\x00\x00\x4c\x00\x04'
-            # ip bytes
-            packet+=str.join('',map(lambda x: chr(int(x)), ip.split('.')))
-        return packet
-
-
-def run(port, name):
-    STUB_RESPONSE = '192.168.1.5'
+def run(port, name, config):
+    STUB_RESPONSE = '0.0.0.0'
 
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         s.bind(('',port))
-    except Exception, e:
+    except Exception as e:
         print 'failed to create socket %s' % e
         sys.exit(1)
 
@@ -49,9 +17,15 @@ def run(port, name):
         while 1:
             data, addr = s.recvfrom(1024)
             p=Query(data)
-            s.sendto(p.answer(STUB_RESPONSE), addr)
-            print '%s -> %s' % (p.domain, addr)
+            # if host is our cdn target
+            if p.domain == name:
+                response = config.replice_map['us-east']
+            else:
+                response = p.question(p.domain)
+                if not response: # couldn't find host
+                    response = STUB_RESPONSE
+            s.sendto(p.answer(response), addr)
+            print '%s -> %s' % (p.domain, response)
     except KeyboardInterrupt:
         print 'Keyboard Interrupt'
         s.close()
-

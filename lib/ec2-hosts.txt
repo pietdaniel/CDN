@@ -1,0 +1,11 @@
+# NOTE: These servers are still being set up. This is just to give you an idea of the format.
+ec2-54-164-51-70.compute-1.amazonaws.com	Origin server (running Web server on port 8080)
+ec2-54-174-6-90.compute-1.amazonaws.com		N. Virginia
+ec2-54-149-9-25.us-west-2.compute.amazonaws.com	Oregon
+ec2-54-67-86-61.us-west-1.compute.amazonaws.com	N. California
+ec2-54-72-167-104.eu-west-1.compute.amazonaws.com	Ireland
+ec2-54-93-182-67.eu-central-1.compute.amazonaws.com	Frankfurt, Germany
+ec2-54-169-146-226.ap-southeast-1.compute.amazonaws.com	Singapore
+ec2-54-65-104-220.ap-northeast-1.compute.amazonaws.com	Tokyo, Japan
+ec2-54-66-212-131.ap-southeast-2.compute.amazonaws.com	Syndey, Australia
+ec2-54-94-156-232.sa-east-1.compute.amazonaws.com	Sao Paulo, Brazil
