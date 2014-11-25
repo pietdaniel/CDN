@@ -39,6 +39,7 @@ def run(port, name):
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         s.bind(('',port))
+	print s.getsockname()
     except Exception, e:
         print 'failed to create socket %s' % e
         sys.exit(1)
