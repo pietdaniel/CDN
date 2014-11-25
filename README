@@ -7,12 +7,12 @@ added hosts file  to determine location of requesting IP. Struggled to integrate
 
 run with
 ```
-sudo ./dnsserver -p <port> -n <name>
+./dnsserver -p <40000-65535> -n <name>
 ```
 
 then test with
 ```
- dig @127.0.0.1 whataver.com
+ dig @127.0.0.1 -p <40000-65535> whataver.com
 ```
 
 it should return an arbitrary ip for the given domain name
@@ -23,10 +23,10 @@ http is started, it currently handles get request returing the string "Welcome!"
 
 run with
 ```
-sudo ./httpserver -p <port> -o <origin>
+./httpserver -p <40000-65535> -o <origin>
 ```
 
 then test with
 ```
-curl localhost:8000
+curl localhost:40000-65535
 ```

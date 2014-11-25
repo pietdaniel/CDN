@@ -1,11 +1,16 @@
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
+import urllib2
 
 class HttpHandler(BaseHTTPRequestHandler):
     def do_GET(self):
+        origin = "ec2-54-164-51-70.compute-1.amazonaws.com:8080"
+        request = "http://" + origin + self.path
+        print request
+        response = urllib2.urlopen(request)
         self.send_response(200)
         self.send_header('Content-type','text/html')
         self.end_headers()
-        self.wfile.write("Welcome!")
+        self.wfile.write(response.read())
         return
 
 def run(port, origin):
