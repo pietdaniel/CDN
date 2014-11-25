@@ -1,6 +1,5 @@
 #!/usr/bin/python
 import socket, sys
-from hosts import hosts
 
 class Query:
     def __init__(self, data):
@@ -34,10 +33,12 @@ class Query:
         return packet
 
 
-def main():
+def run(port, name):
+    STUB_RESPONSE = '192.168.1.5'
+
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        s.bind(('',49153))
+        s.bind(('',port))
     except Exception, e:
         print 'failed to create socket %s' % e
         sys.exit(1)
@@ -48,10 +49,9 @@ def main():
         while 1:
             data, addr = s.recvfrom(1024)
             p=Query(data)
-            s.sendto(p.answer('192.168.1.5'), addr)
-            print '%s -> %s' % (p.domain, ip)
+            s.sendto(p.answer(STUB_RESPONSE), addr)
+            print '%s -> %s' % (p.domain, addr)
     except KeyboardInterrupt:
         print 'Keyboard Interrupt'
         s.close()
 
-main()
