@@ -1,7 +1,7 @@
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 import urllib2
 
-site_origin = ""
+site_origin
 
 
 class HttpHandler(BaseHTTPRequestHandler):
