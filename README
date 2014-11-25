@@ -17,9 +17,14 @@ then test with
 
 it should return an arbitrary ip for the given domain name
 
+==========================================================
+http returns the page it is asked for by retrieving it from the origin. 
 
-http is started, it currently handles get request returing the string "Welcome!"
+*origin currently hardcoded in. Needs to be specified by origin input 
 
+*need to add caching. was going to start with a simple FIFO queue. as pages are requested, move them to the top of the queue. if the queue fills up drop out the bottom of the queue which should be the least requested page. 
+
+Major hurdle right now, I dont know how to integrate things with the do_GET method in the httpserver file.
 
 run with
 ```
@@ -30,3 +35,11 @@ then test with
 ```
 curl localhost:40000-65535
 ```
+
+
+THINGS TO COMPLETE FOR MILESTONE:
+*dnsserver - was getting malformed packet. No geolocation needed for this submission
+*httpserver - add use of origin flag. add simple cache. 
+*README
+
+Please call me asap - 704.248.1602

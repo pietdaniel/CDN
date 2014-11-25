@@ -14,7 +14,6 @@ class HttpHandler(BaseHTTPRequestHandler):
         self.wfile.write(response.read())
         return
 
-
 def run(port, origin):
     try:
         server = HTTPServer(("",port),HttpHandler)
