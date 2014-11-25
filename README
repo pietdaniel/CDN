@@ -1,16 +1,14 @@
 At two weeks in, you need to turn in working DNS servers and caching HTTP clients. The remainder of your time will be spent on the CDN logic that links them together. This is due on November 25th, 2014 at 
 
 
-
 dns is started, it currently can return a predefined ip address for a given domain
 added hosts file  to determine location of requesting IP. Struggled to integrate in DNS server file. Also not helpful that only one node exists. 
 
 
 run with
 ```
- sudo python dnsserver.py
+sudo ./dnsserver -p <port> -n <name>
 ```
-
 
 then test with
 ```
@@ -25,7 +23,7 @@ http is started, it currently handles get request returing the string "Welcome!"
 
 run with
 ```
-python httpserver.py
+sudo ./httpserver -p <port> -o <origin>
 ```
 
 then test with
