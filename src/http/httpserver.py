@@ -1,5 +1,6 @@
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 import urllib2
+import sys
 
 
 
@@ -21,6 +22,7 @@ class HttpHandler(BaseHTTPRequestHandler):
             response = urllib2.urlopen(request)
             data = response.read()
             self.cache[self.path] = data
+            print sys.getsizeof(self.cache)
             self.wfile.write(self.cache[self.path])
         return
 
