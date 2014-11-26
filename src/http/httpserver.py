@@ -5,26 +5,34 @@ import sys
 
 
 class HttpHandler(BaseHTTPRequestHandler):
-    def do_GET(self):
-        request = "http://" + self.origin + ":8080" + self.path
 
-        self.send_response(200)
+    def make_headers(self, status):
+        self.send_response(status)
         self.send_header('Content-type','text/html')
         self.end_headers()
+
+    def do_GET(self):
+        request = "http://" + self.origin + ":8080" + self.path
         try:
             response = self.cache[self.path]
             # cache hit
             #print "Hit"
+            self.make_headers(200)
             self.wfile.write(response)
         except KeyError as e:
             # cache miss
             #print "Miss"
-            response = urllib2.urlopen(request)
-            data = response.read()
-            self.cache[self.path] = data
-            #print sys.getsizeof(self.cache)
-            self.wfile.write(self.cache[self.path])
-        return
+            try:
+                response = urllib2.urlopen(request)
+                self.make_headers(200)
+                data = response.read()
+                if sys.getsizeof(bytes(self.cache)) > 9000000:
+                    self.cache = {}
+                self.cache[self.path] = data
+            except:
+                self.make_headers(404)
+                data = "404"
+            self.wfile.write(data)
 
 def run(port, origin):
     try:
