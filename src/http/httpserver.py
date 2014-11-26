@@ -19,9 +19,9 @@ class HttpHandler(BaseHTTPRequestHandler):
             # cache miss
             print "Miss"
             response = urllib2.urlopen(request)
-            self.cache[self.path] = response.read()
+            data = response.read()
+            self.cache[self.path] = data
             self.wfile.write(self.cache[self.path])
-            print self.cache
         return
 
 def run(port, origin):
