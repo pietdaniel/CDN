@@ -14,7 +14,7 @@ class HttpHandler(BaseHTTPRequestHandler):
             response = self.cache[self.path]
             # cache hit
             print "Hit"
-            self.wfile.write(response.read())
+            self.wfile.write(response)
         except KeyError as e:
             # cache miss
             print "Miss"
