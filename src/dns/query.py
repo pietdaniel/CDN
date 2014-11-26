@@ -24,10 +24,12 @@ class Query:
             packet+=self.data[:2] + "\x81\x80"
             # q/a counts
             packet+=self.data[4:6] + self.data[4:6] + '\x00\x00\x00\x00'
+
             # original dns q
-            packet+=self.data[12:len(self.data)-11]
+            packet+=self.data[12:len(self.data)]
             # point to domain name
             packet+='\xc0\x0c'
+
             # response type, ttl, length
             packet+='\x00\x01\x00\x01\x00\x00\x00\x4c\x00\x04'
             # ip bytes
