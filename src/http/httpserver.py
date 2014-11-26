@@ -14,15 +14,15 @@ class HttpHandler(BaseHTTPRequestHandler):
         try:
             response = self.cache[self.path]
             # cache hit
-            print "Hit"
+            #print "Hit"
             self.wfile.write(response)
         except KeyError as e:
             # cache miss
-            print "Miss"
+            #print "Miss"
             response = urllib2.urlopen(request)
             data = response.read()
             self.cache[self.path] = data
-            print sys.getsizeof(self.cache)
+            #print sys.getsizeof(self.cache)
             self.wfile.write(self.cache[self.path])
         return
 
