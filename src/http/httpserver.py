@@ -21,6 +21,7 @@ class HttpHandler(BaseHTTPRequestHandler):
             response = urllib2.urlopen(request)
             self.cache[self.path] = response
             self.wfile.write(response.read())
+            print self.cache
         return
 
 def run(port, origin):
