@@ -1,8 +1,7 @@
 At two weeks in, you need to turn in working DNS servers and caching HTTP clients. The remainder of your time will be spent on the CDN logic that links them together. This is due on November 25th, 2014 at 
 
 
-dns is started, it currently can return a predefined ip address for a given domain
-added hosts file  to determine location of requesting IP. Struggled to integrate in DNS server file. Also not helpful that only one node exists. 
+DNS Server is working
 
 
 run with
@@ -20,11 +19,7 @@ it should return an arbitrary ip for the given domain name
 ==========================================================
 http returns the page it is asked for by retrieving it from the origin. 
 
-*origin currently hardcoded in. Needs to be specified by origin input 
-
-*need to add caching. was going to start with a simple FIFO queue. as pages are requested, move them to the top of the queue. if the queue fills up drop out the bottom of the queue which should be the least requested page. 
-
-Major hurdle right now, I dont know how to integrate things with the do_GET method in the httpserver file.
+Http server works. Need to improve caching
 
 run with
 ```
@@ -33,13 +28,5 @@ run with
 
 then test with
 ```
-curl localhost:40000-65535
+curl <server>:40000-65535
 ```
-
-
-THINGS TO COMPLETE FOR MILESTONE:
-*dnsserver - was getting malformed packet. No geolocation needed for this submission
-*httpserver - add use of origin flag. add simple cache. 
-*README
-
-Please call me please - 704.248.1602
