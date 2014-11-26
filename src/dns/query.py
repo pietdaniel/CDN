@@ -26,7 +26,7 @@ class Query:
             packet+=self.data[4:6] + self.data[4:6] + '\x00\x00\x00\x00'
 
             # original dns q
-            packet+=self.data[12:len(self.data)-len(self.domain)]
+            packet+=self.data[12:len(self.data)]
             # point to domain name
             packet+='\xc0\x0c'
 
