@@ -29,9 +29,9 @@ class HttpHandler(BaseHTTPRequestHandler):
                 if sys.getsizeof(bytes(self.cache)) > 9000000:
                     self.cache = {}
                 self.cache[self.path] = data
-            except:
+            except urllib2.HTTPError as e:
                 self.make_headers(404)
-                data = "404"
+                data = e.read()
             self.wfile.write(data)
 
 def run(port, origin):
