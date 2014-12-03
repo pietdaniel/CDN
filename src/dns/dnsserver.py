@@ -18,8 +18,8 @@ def run(port, name, config):
             data, addr = s.recvfrom(1024)
             p=Query(data)
             # if host is our cdn target
-            if p.domain == name:
-                response = config.replice_map['us-east']
+            if name in p.domain:
+                response = config.replica_map['us-east'][0]
             else:
                 response = p.question(p.domain)
                 if not response: # couldn't find host
