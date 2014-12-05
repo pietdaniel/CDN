@@ -1,9 +1,37 @@
-At two weeks in, you need to turn in working DNS servers and caching HTTP clients. The remainder of your time will be spent on the CDN logic that links them together. This is due on November 25th, 2014 at 
+Welcome to the last leg of the project
 
+# TODO
 
-dns is started, it currently can return a predefined ip address for a given domain
-added hosts file  to determine location of requesting IP. Struggled to integrate in DNS server file. Also not helpful that only one node exists. 
+## DNS
 
+## HTTP
+
+## SCRIPTS
+
+### deployCDN
+### runCDN
+### stopCDN
+
+============
+Submitting Your Final Project
+
+To turn-in your final project, you should submit your (thoroughly documented) code along with three other files:
+
+  A Makefile that compiles your code.
+  An httpserver executable
+  A dnsserver executable
+  A deployCDN script
+  A runCDN script
+  A stopCDN script
+  A plain-text (no Word or PDF) README file. In this file, you should briefly describe your high-level approach, what specific performance enhancing techniques you implemented, and any challenges you faced.
+
+  Your README, Makefile, source code, etc. should all be placed in a directory. You submit your project by running the turn-in script as follows:
+
+  Do not turn in files larger than 10MB, as these will be rejected.
+
+============
+
+# dnsserver
 
 run with
 ```
@@ -15,16 +43,8 @@ then test with
  dig @127.0.0.1 -p <40000-65535> whataver.com
 ```
 
-it should return an arbitrary ip for the given domain name
-
 ==========================================================
-http returns the page it is asked for by retrieving it from the origin. 
-
-*origin currently hardcoded in. Needs to be specified by origin input 
-
-*need to add caching. was going to start with a simple FIFO queue. as pages are requested, move them to the top of the queue. if the queue fills up drop out the bottom of the queue which should be the least requested page. 
-
-Major hurdle right now, I dont know how to integrate things with the do_GET method in the httpserver file.
+# httpserver
 
 run with
 ```
@@ -36,10 +56,22 @@ then test with
 curl localhost:40000-65535
 ```
 
+=====
 
-THINGS TO COMPLETE FOR MILESTONE:
-*dnsserver - was getting malformed packet. No geolocation needed for this submission
-*httpserver - add use of origin flag. add simple cache. 
-*README
+# deployCDN
+copy code to ec2 instance, run make file
 
-Please call me please - 704.248.1602
+# runCDN
+run code on ec2 instance
+
+# stopCDN
+stop code on ec2 instance
+
+
+./[deploy|run|stop]CDN -p <port> -o <origin> -n <name> -u <username> -i <keyfile>
+
+use ssh keys as follows:
+
+ssh -i keyfile username@<some EC2 server> ...
+
+
