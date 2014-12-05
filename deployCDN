@@ -29,11 +29,11 @@ shift $((OPTIND-1))
 #echo "port=$port, origin=$origin, name=$name, user=$user, identity=$identity, Not Parsed: $@"
 
 i=0
-host=$(cut -d$'\t' -f1 ./ec2-hosts.txt)
+host=($(cut -d$'\t' -f1 ./ec2-hosts.txt))
 
 for h in "${host[@]}"
 do 
-	cmd="ssh -i $identity $user@$h 'cd ~/CDN; git reset --hard; git pull origin master')"
+	cmd="ssh -oStrictHostKeyChecking=no -i $identity $user@$h 'cd ~/CDN; git reset --hard; git pull origin master')"
 	$($cmd)
 done
 
