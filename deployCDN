@@ -33,7 +33,8 @@ host=$(cut -d$'\t' -f1 ./ec2-hosts.txt)
 
 for h in "${host[@]}"
 do 
-	$(ssh -i $identity $name@$h 'cd ~/CDN; git reset --hard; git pull origin master')
+	cmd="ssh -i $identity $name@$h 'cd ~/CDN; git reset --hard; git pull origin master')"
+	$(cmd)
 done
 
 
