@@ -31,8 +31,10 @@ shift $((OPTIND-1))
 i=0
 host=$(cut -d$'\t' -f1 ./ec2-hosts.txt)
 
-echo "${host[@]}"
-
+for h in "${host[@]}"
+do 
+	$(ssh -i $identity $name@$h 'cd ~/CDN; git reset --hard; git pull origin master')
+done
 
 
 #cd ~/CDN
