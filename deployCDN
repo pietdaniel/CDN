@@ -1,6 +1,40 @@
 #!/bin/bash
 
-#for each host
-cd ~/CDN
-git reset --hard
-git pull origin master
+
+OPTINDEX=1
+
+# Initialize our own variables:
+port=""
+origin=""
+name=""
+user=""
+identity=""
+numhost=$(wc -l < ./ec2-hosts.txt)
+
+while getopts "p:o:n:u:i:" opt; do
+    case "$opt" in
+    p)  port=$OPTARG
+        ;;
+    o)  origin=$OPTARG
+        ;;
+    n)  name=$OPTARG
+        ;;
+    u)	user=$OPTARG
+	;;
+    i)  identity=$OPTARG
+	;;
+    esac
+done
+shift $((OPTIND-1))
+#echo "port=$port, origin=$origin, name=$name, user=$user, identity=$identity, Not Parsed: $@"
+
+i=0
+host=$(cut -d$'\t' -f1 ./ec2-hosts.txt)
+
+echo "${host[@]}"
+
+
+
+#cd ~/CDN
+#git reset --hard
+#git pull origin master
