@@ -1,8 +1,41 @@
-At two weeks in, you need to turn in working DNS servers and caching HTTP clients. The remainder of your time will be spent on the CDN logic that links them together. This is due on November 25th, 2014 at 
+Welcome to the last leg of the project
 
+# TODO
 
+<<<<<<< HEAD
 DNS Server is working
+=======
+## DNS
+>>>>>>> f381f86367abd54ca9f5d4a070dbbdaca96dbbb1
 
+## HTTP
+
+## SCRIPTS
+
+### deployCDN
+### runCDN
+### stopCDN
+
+============
+Submitting Your Final Project
+
+To turn-in your final project, you should submit your (thoroughly documented) code along with three other files:
+
+  A Makefile that compiles your code.
+  An httpserver executable
+  A dnsserver executable
+  A deployCDN script
+  A runCDN script
+  A stopCDN script
+  A plain-text (no Word or PDF) README file. In this file, you should briefly describe your high-level approach, what specific performance enhancing techniques you implemented, and any challenges you faced.
+
+  Your README, Makefile, source code, etc. should all be placed in a directory. You submit your project by running the turn-in script as follows:
+
+  Do not turn in files larger than 10MB, as these will be rejected.
+
+============
+
+# dnsserver
 
 run with
 ```
@@ -14,12 +47,14 @@ then test with
  dig @127.0.0.1 -p <40000-65535> whataver.com
 ```
 
-it should return an arbitrary ip for the given domain name
-
 ==========================================================
+<<<<<<< HEAD
 http returns the page it is asked for by retrieving it from the origin. 
 
 Http server works. Need to improve caching
+=======
+# httpserver
+>>>>>>> f381f86367abd54ca9f5d4a070dbbdaca96dbbb1
 
 run with
 ```
@@ -28,5 +63,30 @@ run with
 
 then test with
 ```
+<<<<<<< HEAD
 curl <server>:40000-65535
 ```
+=======
+curl localhost:40000-65535
+```
+
+=====
+
+# deployCDN
+copy code to ec2 instance, run make file
+
+# runCDN
+run code on ec2 instance
+
+# stopCDN
+stop code on ec2 instance
+
+
+./[deploy|run|stop]CDN -p <port> -o <origin> -n <name> -u <username> -i <keyfile>
+
+use ssh keys as follows:
+
+ssh -i keyfile username@<some EC2 server> ...
+
+
+>>>>>>> f381f86367abd54ca9f5d4a070dbbdaca96dbbb1

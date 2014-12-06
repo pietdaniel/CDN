@@ -19,6 +19,8 @@ class HttpHandler(BaseHTTPRequestHandler):
             #print "Hit"
             self.make_headers(200)
             self.wfile.write(response)
+            self.cacheObjects.remove(self.path)
+            self.cacheObjects.insert(0, self.path)
         except KeyError as e:
             # cache miss
             #print "Miss"
@@ -27,8 +29,9 @@ class HttpHandler(BaseHTTPRequestHandler):
                 self.make_headers(200)
                 data = response.read()
                 if sys.getsizeof(bytes(self.cache)) > 9000000:
-                    self.cache = {}
-                self.cache[self.path] = data
+                    del self.cache[self.cacheObjects.pop()]
+                self.cache[self.path]
+                self.cacheObjects.insert(0, self.path)
             except urllib2.HTTPError as e:
                 self.make_headers(404)
                 data = e.read()
@@ -40,6 +43,7 @@ def run(port, origin):
         handler.origin = origin
 
         handler.cache = {}
+        handler.cacheObjects[]
 
         server = HTTPServer(("",port),handler)
         print "Started server at ", server.socket.getsockname()
