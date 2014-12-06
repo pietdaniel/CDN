@@ -33,15 +33,15 @@ host=($(cut -d$'\t' -f1 ./ec2-hosts.txt))
 
 for h in "${host[@]}"
 do 
-	ssh -oStrictHostKeyChecking=no -i $identity $user@$h << 'EOF'
-    if [ -d /home/$user/CDN ]
-        cd /home/$user/CDN
-    else
-        git clone https://github.com/pietdaniel/CDN.git
-        cd /home/$user/CDN
-    git reset --hard
-    git pull origin master
-    EOF	
+ssh -oStrictHostKeyChecking=no -i $identity $user@$h << 'EOF'
+if [ -d /home/$user/CDN ]
+cd /home/$user/CDN
+else
+git clone https://github.com/pietdaniel/CDN.git
+cd /home/$user/CDN
+git reset --hard
+git pull origin master
+EOF	
 done
 
 
