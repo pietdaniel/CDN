@@ -29,7 +29,7 @@ class HttpHandler(BaseHTTPRequestHandler):
                 self.make_headers(200)
                 data = response.read()
                 print sys.getsizeof(bytes(self.cache))
-                if sys.getsizeof(bytes(self.cache)) > 900000:
+                if sys.getsizeof(bytes(self.cache)) > 9000000:
                     print "################################"
                     print "PURGING"
                     print "################################"
