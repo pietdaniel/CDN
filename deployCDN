@@ -35,10 +35,12 @@ for h in "${host[@]}"
 do
     ssh -oStrictHostKeyChecking=no -i $identity $user@$h << 'EOF'
     if [ -d /home/$user/CDN ]
+    then
         cd /home/$user/CDN
     else
         git clone https://github.com/pietdaniel/CDN.git
         cd /home/$user/CDN
+    fi
     git reset --hard
     git pull origin master
 EOF
