@@ -33,17 +33,15 @@ host=($(cut -d$'\t' -f1 ./ec2-hosts.txt))
 
 for h in "${host[@]}"
 do 
-	$SSHCMD='ssh -oStrictHostKeyChecking=no -i $identity $user@$h << ENDSSH
-    if [ -d ~/CDN ]
-        cd ~/CDN
+	ssh -oStrictHostKeyChecking=no -i $identity $user@$h << 'ENDSSH'
+    if [ -d /home/$user/CDN ]
+        cd /home/$user/CDN
     else
         git clone https://github.com/pietdaniel/CDN.git
-        cd ~/CDN
+        cd /home/$user/CDN
     git reset --hard
     git pull origin master
-    ENDSSH'
-
-    $SSHCMD
+    ENDSSH
 	
 done
 
