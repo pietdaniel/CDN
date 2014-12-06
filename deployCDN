@@ -33,7 +33,7 @@ host=($(cut -d$'\t' -f1 ./ec2-hosts.txt))
 
 for h in "${host[@]}"
 do
-    
+    response=$(
     ssh -t -oStrictHostKeyChecking=no -i $identity $user@$h << ENDSSH
     if [ -d /home/$user/CDN ]
     then
@@ -45,7 +45,7 @@ do
     git reset --hard
     git pull origin master
 ENDSSH
-
+)
 done
 
 
