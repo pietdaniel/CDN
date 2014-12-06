@@ -33,7 +33,7 @@ host=($(cut -d$'\t' -f1 ./ec2-hosts.txt))
 
 for h in "${host[@]}"
 do 
-	$SSHCMD = 'ssh -oStrictHostKeyChecking=no -i $identity $user@$h << ENDSSH
+	$SSHCMD='ssh -oStrictHostKeyChecking=no -i $identity $user@$h << ENDSSH
     if [ -d ~/CDN ]
         cd ~/CDN
     else
