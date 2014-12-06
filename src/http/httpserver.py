@@ -43,7 +43,7 @@ def run(port, origin):
         handler.origin = origin
 
         handler.cache = {}
-        handler.cacheObjects[]
+        handler.cacheObjects = []
 
         server = HTTPServer(("",port),handler)
         print "Started server at ", server.socket.getsockname()
