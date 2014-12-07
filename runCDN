@@ -46,5 +46,5 @@ ENDSSH
 
 for h in "${host[@]}"
 do 
-	wget http://$h:$port/
+	curl http://$h:$port/
 done
