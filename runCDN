@@ -35,6 +35,6 @@ for h in "${host[@]}"
 do
     ssh -t  -oStrictHostKeyChecking=no -i $identity $user@$h << ENDSSH
     cd /home/$user/CDN
-    nohup ./httpserver -p $port -o $origin &
+    nohup ./httpserver -p $port -o $origin \&
 ENDSSH
 done
