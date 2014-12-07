@@ -37,10 +37,14 @@ do
     cd /home/$user/CDN
     nohup ./httpserver -p $port -o $origin > http.out 2> http.err < /dev/null &
 ENDSSH
-wget http://$h:$port/
 done
 
 ssh -t  -oStrictHostKeyChecking=no -i $identity $user@cs5700cdnproject.ccs.neu.edu << ENDSSH
     cd /home/$user/CDN
     nohup ./dnsserver -p $port -n $name > dns.out 2> dns.err < /dev/null &
 ENDSSH
+
+for h in "{host[@]}"
+do 
+	wget http://$h:$port/
+done
