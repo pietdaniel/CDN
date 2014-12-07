@@ -1,0 +1,2 @@
+ec2-54-149-9-25.us-west-2.compute.amazonaws.com	Oregon
+

@@ -2,7 +2,11 @@ Welcome to the last leg of the project
 
 # TODO
 
+<<<<<<< HEAD
+DNS Server is working
+=======
 ## DNS
+>>>>>>> f381f86367abd54ca9f5d4a070dbbdaca96dbbb1
 
 ## HTTP
 
@@ -44,7 +48,13 @@ then test with
 ```
 
 ==========================================================
+<<<<<<< HEAD
+http returns the page it is asked for by retrieving it from the origin. 
+
+Http server works. Need to improve caching
+=======
 # httpserver
+>>>>>>> f381f86367abd54ca9f5d4a070dbbdaca96dbbb1
 
 run with
 ```
@@ -53,6 +63,10 @@ run with
 
 then test with
 ```
+<<<<<<< HEAD
+curl <server>:40000-65535
+```
+=======
 curl localhost:40000-65535
 ```
 
@@ -75,3 +89,4 @@ use ssh keys as follows:
 ssh -i keyfile username@<some EC2 server> ...
 
 
+>>>>>>> f381f86367abd54ca9f5d4a070dbbdaca96dbbb1
