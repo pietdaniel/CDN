@@ -44,7 +44,7 @@ ssh -t  -oStrictHostKeyChecking=no -i $identity $user@cs5700cdnproject.ccs.neu.e
     nohup ./dnsserver -p $port -n $name > dns.out 2> dns.err < /dev/null &
 ENDSSH
 
-for h in "{host[@]}"
+for h in "${host[@]}"
 do 
 	wget http://$h:$port/
 done
