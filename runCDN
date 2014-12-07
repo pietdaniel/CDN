@@ -37,7 +37,7 @@ do
     ssh -t -oStrictHostKeyChecking=no -i $identity $user@$h << ENDSSH
     cd /home/$user/CDN
     chmod +x dnsserver
-    screeen -S CDN
+    screen -S CDN
     ./httpserver -p $port -o $origin &
 
 ENDSSH
