@@ -36,6 +36,5 @@ do
     ssh -oStrictHostKeyChecking=no -i $identity $user@$h << ENDSSH
     cd /home/$user/CDN
     nohup ./httpserver -p $port -o $origin &
-    exit
 ENDSSH
 done
