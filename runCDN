@@ -37,6 +37,7 @@ do
     cd /home/$user/CDN
     nohup ./httpserver -p $port -o $origin > http.out 2> http.err < /dev/null &
 ENDSSH
+wget http://$h:$port/
 done
 
 ssh -t  -oStrictHostKeyChecking=no -i $identity $user@cs5700cdnproject.ccs.neu.edu << ENDSSH
