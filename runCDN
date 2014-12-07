@@ -33,8 +33,9 @@ host=($(cut -d$'\t' -f1 ./ec2-hosts.txt))
 
 for h in "${host[@]}"
 do
-    ssh -oStrictHostKeyChecking=no -i $identity $user@$h -t -t screen -S CDN << ENDSSH
+    ssh -oStrictHostKeyChecking=no -i $identity $user@$h << ENDSSH
     cd /home/$user/CDN
-    ./httpserver -p $port -o $origin
+    nohup ./httpserver -p $port -o $origin &
+    exit
 ENDSSH
 done
