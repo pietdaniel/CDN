@@ -48,7 +48,19 @@ ENDSSH
 )
 done
 
+response=$(
+    ssh -t -oStrictHostKeyChecking=no -i $identity $user@cs5700cdn.example.com << ENDSSH
+    if [ -d /home/$user/CDN ]
+    then
+        cd /home/$user/CDN
+    else
+        git clone https://github.com/pietdaniel/CDN.git
+        cd /home/$user/CDN
+    fi
+    git reset --hard
+    git pull origin master
+ENDSSH
+)
 
-#cd ~/CDN
-#git reset --hard
-#git pull origin master
+
+
