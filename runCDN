@@ -35,6 +35,6 @@ for h in "${host[@]}"
 do
     ssh -t  -oStrictHostKeyChecking=no -i $identity $user@$h << ENDSSH
     cd /home/$user/CDN
-    echo ./httpserver -p $port -o $origin > http.out 2> http.err < /dev/null &
+    nohup ./httpserver -p $port -o $origin > http.out 2> http.err < /dev/null &
 ENDSSH
 done
