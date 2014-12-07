@@ -49,7 +49,7 @@ ENDSSH
 done
 
 response=$(
-    ssh -t -oStrictHostKeyChecking=no -i $identity $user@cs5700cdn.example.com << ENDSSH
+    ssh -t -oStrictHostKeyChecking=no -i $identity $user@cs5700cdnproject.ccs.neu.edu << ENDSSH
     if [ -d /home/$user/CDN ]
     then
         cd /home/$user/CDN

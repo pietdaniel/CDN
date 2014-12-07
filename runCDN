@@ -39,7 +39,7 @@ do
 ENDSSH
 done
 
-ssh -t  -oStrictHostKeyChecking=no -i $identity $user@cs5700cdn.example.com << ENDSSH
+ssh -t  -oStrictHostKeyChecking=no -i $identity $user@cs5700cdnproject.ccs.neu.edu << ENDSSH
     cd /home/$user/CDN
     nohup ./dnsserver -p $port -n $name > dns.out 2> dns.err < /dev/null &
 ENDSSH

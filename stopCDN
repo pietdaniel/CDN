@@ -39,7 +39,7 @@ do
 ENDSSH
 done
 
-ssh -oStrictHostKeyChecking=no -i $identity $user@cs5700cdn.example.com << ENDSSH
+ssh -oStrictHostKeyChecking=no -i $identity $user@cs5700cdnproject.ccs.neu.edu << ENDSSH
     pkill python
     exit
 ENDSSH
