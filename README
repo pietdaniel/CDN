@@ -1,92 +1,71 @@
-Welcome to the last leg of the project
-
-# TODO
-
-<<<<<<< HEAD
-DNS Server is working
-=======
-## DNS
->>>>>>> f381f86367abd54ca9f5d4a070dbbdaca96dbbb1
-
-## HTTP
-
-## SCRIPTS
-
-### deployCDN
-### runCDN
-### stopCDN
-
-============
-Submitting Your Final Project
-
-To turn-in your final project, you should submit your (thoroughly documented) code along with three other files:
-
-  A Makefile that compiles your code.
-  An httpserver executable
-  A dnsserver executable
-  A deployCDN script
-  A runCDN script
-  A stopCDN script
-  A plain-text (no Word or PDF) README file. In this file, you should briefly describe your high-level approach, what specific performance enhancing techniques you implemented, and any challenges you faced.
-
-  Your README, Makefile, source code, etc. should all be placed in a directory. You submit your project by running the turn-in script as follows:
-
-  Do not turn in files larger than 10MB, as these will be rejected.
-
-============
-
-# dnsserver
-
-run with
-```
-./dnsserver -p <40000-65535> -n <name>
-```
-
-then test with
-```
- dig @127.0.0.1 -p <40000-65535> whataver.com
-```
-
-==========================================================
-<<<<<<< HEAD
-http returns the page it is asked for by retrieving it from the origin. 
-
-Http server works. Need to improve caching
-=======
-# httpserver
->>>>>>> f381f86367abd54ca9f5d4a070dbbdaca96dbbb1
-
-run with
-```
-./httpserver -p <40000-65535> -o <origin>
-```
-
-then test with
-```
-<<<<<<< HEAD
-curl <server>:40000-65535
-```
-=======
-curl localhost:40000-65535
-```
-
-=====
-
-# deployCDN
-copy code to ec2 instance, run make file
-
-# runCDN
-run code on ec2 instance
-
-# stopCDN
-stop code on ec2 instance
+         (`.  : \               __..----..__
+          `.`.| |:          _,-':::''' '  `:`-._
+            `.:\||       _,':::::'         `::::`-.
+              \\`|    _,':::::::'     `:.     `':::`.
+               ;` `-''  `::::::.                  `::\
+            ,-'      .::'  `:::::.         `::..    `:\
+          ,' /_) -.            `::.           `:.     |
+        ,'.:     `    `:.        `:.     .::.          \
+   __,-'   ___,..-''-.  `:.        `.   /::::.         |
+  |):'_,--'           `.    `::..       |::::::.      ::\
+   `-'                 |`--.:_::::|_____\::::::::.__  ::|
+                       |   _/|::::|      \::::::|::/\  :|
+                       /:./  |:::/        \__:::):/  \  :\
+                     ,'::'  /:::|        ,'::::/_/    `. ``-.__
+  CDN Project 5      ''''   (//|/\      ,';':,-'         `-.__  `'--..__
+                                                             `''---::::'
+  __ _  __ _ _ __ __| |_   ____ _ _ __| | __
+ / _` |/ _` | '__/ _` \ \ / / _` | '__| |/ /
+| (_| | (_| | | | (_| |\ V / (_| | |  |   <
+ \__,_|\__,_|_|  \__,_| \_/ \__,_|_|  |_|\_\
 
 
-./[deploy|run|stop]CDN -p <port> -o <origin> -n <name> -u <username> -i <keyfile>
+Daniel Piet
+Will Tome
 
-use ssh keys as follows:
+#########
+# Goals #
+#########
 
-ssh -i keyfile username@<some EC2 server> ...
+Create a dns server that will return the lowest latency replica
+server to a given dig request.
 
+Moreover, create an http server which will cache content and
+request from the origin if necessary.
 
->>>>>>> f381f86367abd54ca9f5d4a070dbbdaca96dbbb1
+Finally, create three scripts that deploy, run, and stop
+the CDN.
+
+#########################
+# High - Level Approach #
+#########################
+
+The DNS server will initially do an http lookup against the
+ip for a geo location.  It will then return the closest replica
+server based upon the geolocation.
+
+Ip address are also traced from the replica servers and latencies
+are posted to the dns server's database via hacks
+
+The HTTP server caches content naively. The cache is evicted by a
+last in last out policy.
+
+Content is requested from the origin server on a cache miss.
+
+####################################
+# Performance Enhancing Techniques #
+####################################
+
+Scamper was used on the HTTP servers to perform trace calls that
+can help identify the latency to a given ip address.
+
+##############
+# Challenges #
+##############
+
+It would of been nice to have a solid CIDR ip to allow for ip
+address aggregations based upon core points in the network. This
+way our traces could identify where many ip address converge
+allowing for accurate laten y assumptions based upon ip.
+Constructing a CIDR api is not terribly difficult but tedious
+and was thusly neglected in favor or easier techniques.
