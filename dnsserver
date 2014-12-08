@@ -21,4 +21,6 @@ def arg_parse(args):
 if __name__ == "__main__":
     conf = config()
     port, name = arg_parse(sys.argv[1:])
+    conf.port = port
+    conf.name = name
     run(port, name, conf)

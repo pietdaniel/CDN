@@ -53,6 +53,10 @@ def handle_response(ip_address, config):
                 min_latency = result[3]
                 min_server = result[2]
         return min_server
+    else:
+        for key in config.replica_map:
+            replica_ip = config.replica_map[key][0]
+            messenger.send_latency_request(replica_ip, config.port, ip_address)
 
     closest = location.get_closest(ip_address)
     if closest:
