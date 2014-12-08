@@ -1,2 +1,1 @@
-ec2-54-149-9-25.us-west-2.compute.amazonaws.com	Oregon
-
+ec2-54-174-6-90.compute-1.amazonaws.com

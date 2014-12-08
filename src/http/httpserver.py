@@ -2,10 +2,7 @@ from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 import urllib2
 import sys
 
-
-
 class HttpHandler(BaseHTTPRequestHandler):
-
     def make_headers(self, status):
         self.send_response(status)
         self.send_header('Content-type','text/html')
