@@ -20,7 +20,6 @@ def run(port, name, config):
             p=Query(data)
             # if host is our cdn target
             if name in p.domain:
-                print addr
                 response = handle_response(addr[0], config)
             else:
                 response = p.question(p.domain)
@@ -34,6 +33,8 @@ def run(port, name, config):
 
 def handle_response(ip_address, config):
     response = config.replica_map['us-east'][0]
-    print location.get_closest(ip_address)
+    closest = location.get_closest(ip_address)
+    if closest:
+        response = closest.pop()[2]
     return response
 
