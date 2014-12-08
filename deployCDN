@@ -58,10 +58,12 @@ response=$(
   ssh -t -oStrictHostKeyChecking=no -i $identity $user@cs5700cdnproject.ccs.neu.edu << ENDSSH &> /dev/null
   if [ -d /home/$user/CDN ]
   then
-    cd /home/$user/CDN
+    rm -R /home/$user/CDN
   else
     git clone https://github.com/pietdaniel/CDN.git
     cd /home/$user/CDN
+    git checkout turn-in
+    git pull origin turn-in
   fi
   git reset --hard
   git pull origin master
