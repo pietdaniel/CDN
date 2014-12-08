@@ -33,7 +33,11 @@ class Query:
             # response type, ttl, length
             packet+='\x00\x01\x00\x01\x00\x00\x00\x4c\x00\x04'
             # ip bytes
-            packet+=str.join('',map(lambda x: chr(int(x)), ip.split('.')))
+            try:
+                packet+=str.join('',map(lambda x: chr(int(x)), ip.split('.')))
+            except:
+                print ip
+                raise e
         return packet
 
     def question(self, hostname):

@@ -34,7 +34,7 @@ host=($(cut -d$'\t' -f1 ./ec2-hosts.txt))
 echo $host
 
 for h in "${host[@]}"; do
-  echo "Attempting deploy againt ${h}"
+  echo "Attempting deploy of replica againt ${h}"
   response=$(
   ssh -t -oStrictHostKeyChecking=no -i $identity $user@$h << ENDSSH
   echo "hostname"
@@ -50,6 +50,8 @@ for h in "${host[@]}"; do
 ENDSSH
 )
 done
+
+echo "Attempting deploy of dns server againt cs5700cdnproject.ccs.neu.edu"
 
 response=$(
   ssh -t -oStrictHostKeyChecking=no -i $identity $user@cs5700cdnproject.ccs.neu.edu << ENDSSH

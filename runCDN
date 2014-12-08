@@ -33,18 +33,18 @@ shift $((OPTIND-1))
 i=0
 host=($(cut -d$'\t' -f1 ./ec2-hosts.txt))
 
-for h in "${host[@]}"; do
-  ssh -t  -oStrictHostKeyChecking=no -i $identity $user@$h << ENDSSH
-  cd /home/$user/CDN
-  nohup ./httpserver -p $port -o $origin > http.out 2> http.err < /dev/null &
-ENDSSH
-done
+#for h in "${host[@]}"; do
+#  ssh -t  -oStrictHostKeyChecking=no -i $identity $user@$h << ENDSSH
+#  cd /home/$user/CDN
+#  nohup ./httpserver -p $port -o $origin > http.out 2> http.err < /dev/null &
+#ENDSSH
+#done
 
 ssh -t  -oStrictHostKeyChecking=no -i $identity $user@cs5700cdnproject.ccs.neu.edu << ENDSSH
   cd /home/$user/CDN
   nohup ./dnsserver -p $port -n $name > dns.out 2> dns.err < /dev/null &
 ENDSSH
 
-for h in "${host[@]}"; do
-  curl http://$h:$port/ > /dev/null
-done
+#for h in "${host[@]}"; do
+#  curl http://$h:$port/ > /dev/null
+#done
