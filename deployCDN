@@ -55,7 +55,7 @@ done
 echo "Attempting deploy of dns server againt cs5700cdnproject.ccs.neu.edu"
 
 response=$(
-  ssh -t -oStrictHostKeyChecking=no -i $identity $user@cs5700cdnproject.ccs.neu.edu << ENDSSH &> /dev/null
+  ssh -t -oStrictHostKeyChecking=no -i $identity $user@cs5700cdnproject.ccs.neu.edu << ENDSSH 
   if [ -d /home/$user/CDN ]
   then
     rm -R /home/$user/CDN
