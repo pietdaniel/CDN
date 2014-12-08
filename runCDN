@@ -28,23 +28,37 @@ done
 
 shift $((OPTIND-1))
 
-# echo "port=$port, origin=$origin, name=$name, user=$user, identity=$identity, Not Parsed: $@"
+echo "Running runCDN against the following options:"
+echo "port=$port, origin=$origin, name=$name, user=$user, identity=$identity, Not Parsed: $@"
+echo ""
 
 i=0
 host=($(cut -d$'\t' -f1 ./ec2-hosts.txt))
 
-#for h in "${host[@]}"; do
-#  ssh -t  -oStrictHostKeyChecking=no -i $identity $user@$h << ENDSSH
-#  cd /home/$user/CDN
-#  nohup ./httpserver -p $port -o $origin > http.out 2> http.err < /dev/null &
-#ENDSSH
-#done
-
-ssh -t  -oStrictHostKeyChecking=no -i $identity $user@cs5700cdnproject.ccs.neu.edu << ENDSSH
+for h in "${host[@]}"; do
+  echo ""
+  echo "Attempting to run httpserver on host ${h}"
+  echo ""
+  ssh -t  -oStrictHostKeyChecking=no -i $identity $user@$h << ENDSSH &> /dev/null
   cd /home/$user/CDN
-  nohup ./dnsserver -p $port -n $name > dns.out 2> dns.err < /dev/null &
+  nohup ./httpserver -p $port -o $origin > http.out 2> http.err < /dev/null &
 ENDSSH
+done
 
-#for h in "${host[@]}"; do
-#  curl http://$h:$port/ > /dev/null
-#done
+echo "Attempting to run dns server"
+
+echo ""
+ssh -t  -oStrictHostKeyChecking=no -i $identity $user@cs5700cdnproject.ccs.neu.edu << ENDSSH &> /dev/null
+  cd /home/$user/CDN
+  ./dnsserver -p $port -n $name > dns.out 2> dns.err &
+ENDSSH
+echo ""
+
+echo "Precaching hompage on replicas"
+
+echo ""
+for h in "${host[@]}"; do
+  echo "Precaching against host ${h}"
+  curl http://$h:$port/ &> /dev/null
+done
+echo ""

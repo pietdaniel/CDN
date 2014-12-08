@@ -25,20 +25,30 @@ while getopts "p:o:n:u:i:" opt; do
   esac
 done
 shift $((OPTIND-1))
-#echo "port=$port, origin=$origin, name=$name, user=$user, identity=$identity, Not Parsed: $@"
+
+
+echo "Running stopCDN against the following arguments:"
+echo "port=$port, origin=$origin, name=$name, user=$user, identity=$identity"
+echo ""
 
 i=0
 host=($(cut -d$'\t' -f1 ./ec2-hosts.txt))
 
-for h in "${host[@]}"
-do
-  ssh -oStrictHostKeyChecking=no -i $identity $user@$h << ENDSSH
-  pkill python
+for h in "${host[@]}"; do
+  echo ""
+  echo "Attempting to stop host ${h}"
+  echo ""
+  ssh -oStrictHostKeyChecking=no -i $identity $user@$h << ENDSSH &> /dev/null
+  pkill python &> /dev/null
   exit
 ENDSSH
 done
 
-ssh -oStrictHostKeyChecking=no -i $identity $user@cs5700cdnproject.ccs.neu.edu << ENDSSH
-  pkill python
+echo ""
+echo "Attempting to stop dns server"
+echo ""
+
+ssh -oStrictHostKeyChecking=no -i $identity $user@cs5700cdnproject.ccs.neu.edu << ENDSSH &> /dev/null
+  pkill python &> /dev/null
   exit
 ENDSSH

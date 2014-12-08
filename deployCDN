@@ -29,14 +29,15 @@ shift $((OPTIND-1))
 
 echo "Starting deploy procedure against arguments"
 echo "port=$port, origin=$origin, name=$name, user=$user, identity=$identity"
+echo ""
+
 i=0
 host=($(cut -d$'\t' -f1 ./ec2-hosts.txt))
-echo $host
 
 for h in "${host[@]}"; do
   echo "Attempting deploy of replica againt ${h}"
   response=$(
-  ssh -t -oStrictHostKeyChecking=no -i $identity $user@$h << ENDSSH
+  ssh -t -oStrictHostKeyChecking=no -i $identity $user@$h << ENDSSH &>/dev/null
   echo "hostname"
   if [ -d /home/$user/CDN ]
   then
@@ -54,7 +55,7 @@ done
 echo "Attempting deploy of dns server againt cs5700cdnproject.ccs.neu.edu"
 
 response=$(
-  ssh -t -oStrictHostKeyChecking=no -i $identity $user@cs5700cdnproject.ccs.neu.edu << ENDSSH
+  ssh -t -oStrictHostKeyChecking=no -i $identity $user@cs5700cdnproject.ccs.neu.edu << ENDSSH &> /dev/null
   if [ -d /home/$user/CDN ]
   then
     cd /home/$user/CDN
