@@ -24,16 +24,20 @@ while getopts "p:o:n:u:i:" opt; do
       ;;
   esac
 done
-shift $((OPTIND-1))
-#echo "port=$port, origin=$origin, name=$name, user=$user, identity=$identity, Not Parsed: $@"
 
+shift $((OPTIND-1))
+
+echo "Starting deploy procedure against arguments"
+echo "port=$port, origin=$origin, name=$name, user=$user, identity=$identity"
 i=0
 host=($(cut -d$'\t' -f1 ./ec2-hosts.txt))
+echo $host
 
-for h in "${host[@]}"
-do
+for h in "${host[@]}"; do
+  echo "Attempting deploy againt ${h}"
   response=$(
   ssh -t -oStrictHostKeyChecking=no -i $identity $user@$h << ENDSSH
+  echo "hostname"
   if [ -d /home/$user/CDN ]
   then
     cd /home/$user/CDN
@@ -43,21 +47,21 @@ do
   fi
   git reset --hard
   git pull origin master
-  ENDSSH
-  )
+ENDSSH
+)
 done
 
 response=$(
-ssh -t -oStrictHostKeyChecking=no -i $identity $user@cs5700cdnproject.ccs.neu.edu << ENDSSH
-if [ -d /home/$user/CDN ]
-then
-  cd /home/$user/CDN
-else
-  git clone https://github.com/pietdaniel/CDN.git
-  cd /home/$user/CDN
-fi
-git reset --hard
-git pull origin master
+  ssh -t -oStrictHostKeyChecking=no -i $identity $user@cs5700cdnproject.ccs.neu.edu << ENDSSH
+  if [ -d /home/$user/CDN ]
+  then
+    cd /home/$user/CDN
+  else
+    git clone https://github.com/pietdaniel/CDN.git
+    cd /home/$user/CDN
+  fi
+  git reset --hard
+  git pull origin master
 ENDSSH
 )
 
