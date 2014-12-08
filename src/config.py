@@ -11,3 +11,8 @@ class config():
                 "au" : ("54.66.212.131", "Syndey, Australia", (-33.8615, 151.2055)),
                 "br" : ("54.94.156.232", "Sao Paulo, Brazil", (-23.5500, -46.6333))
         }
+        self.origin_port = 8080
+        self.port = None
+        self.name = None
+        self.origin = "ec2-54-164-51-70.compute-1.amazonaws.com"
+        self.cdn = "cs5700cdnproject.ccs.neu.edu"

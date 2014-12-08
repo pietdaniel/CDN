@@ -6,34 +6,17 @@ try:
 except db.OperationalError as e:
     raise Exception("Failed %s %s" % (e.message, os.getcwd()))
 
-def get_latencies(**kwargs):
-    query_string = "SELECT * from latency WHERE ip='%s'" % kwargs['ip']
-    try:
-        result = execute_select_all(query_string)
-        if result:
-            return result
-        else:
-            return False
-    except db.Error as e:
-        print e
-        return False
-
-
 def get_latency(**kwargs):
-    query_string = "SELECT * from latency WHERE ip='%s' and server='%s'" % get_ip_server(**kwargs)
+    query_string = "SELECT * from latency WHERE ip=%s and server=%s" % get_ip_server(**kwargs)
     try:
-        result = execute_select(query_string)
-        if result:
-            return (result[1],result[3])
-        else:
-            return False
+        execute(query_string)
     except db.Error as e:
         print e
-        return False
+        exit()
 
 def upsert_latency(**kwargs):
     query_string = "INSERT INTO latency (%s) values (%s)" %\
-            (", ".join(kwargs.keys()), ", ".join(map(lambda x: "'%s'" % str(x), kwargs.values())))
+            (", ".join(kwargs.keys()), ", ".join(map(str, kwargs.values())))
     try:
         execute(query_string)
     except db.Error as e:
@@ -45,17 +28,15 @@ def update_latency(**kwargs):
         update_strings = []
 
         if 'latency' in kwargs.keys():
-            update_strings.append("latency='%s'" % kwargs['latency'])
+            update_strings.append("latency=%s" % kwargs['latency'])
         if 'timestamp' in kwargs.keys():
-            update_strings.append("timestamp='%s'" % kwargs['timestamp'])
+            update_strings.append("timestamp=%s" % kwargs['timestamp'])
         if 'authority' in kwargs.keys():
-            update_strings.append("authority='%s'" % kwargs['authority'])
+            update_strings.append("authority=%s" % kwargs['authority'])
 
         update_string  = ", ".join(update_strings)
-
-        query_string = "UPDATE latency SET %s WHERE ip='%s' AND server='%s'" %\
+        query_string = "UPDATE latency SET %s WHERE ip=%s AND server=%s" %\
                         (update_string, ip, server)
-
         execute(query_string)
     except db.Error as e:
         print e
@@ -69,23 +50,12 @@ def delete_latency(**kwargs):
         print e
         exit()
 
-def execute_select_all(query_string):
-    print 'executing %s' % query_string
-    cur = latencydb.cursor()
-    cur.execute(query_string)
-    return cur.fetchall()
-
-def execute_select(query_string):
-    print 'executing %s' % query_string
-    cur = latencydb.cursor()
-    cur.execute(query_string)
-    return cur.fetchone()
-
 def execute(query_string):
     print 'executing %s' % query_string
     cur = latencydb.cursor()
     cur.execute(query_string)
     latencydb.commit()
+
 
 def get_ip_server(**kwargs):
     try:
@@ -94,3 +64,15 @@ def get_ip_server(**kwargs):
         return (ip, server)
     except KeyError as e:
         raise Exception("Could not retrieve ip server from kwargs")
+
+
+def upsert_active_server(**kwargs):
+    pass
+
+def delete_active_server(**kwargs):
+    pass
+
+def get_active_servers(**kwargs):
+    pass
+
+
