@@ -37,7 +37,7 @@ host=($(cut -d$'\t' -f1 ./ec2-hosts.txt))
 for h in "${host[@]}"; do
   echo "Attempting deploy of replica againt ${h}"
   response=$(
-  ssh -t -oStrictHostKeyChecking=no -i $identity $user@$h << ENDSSH
+  ssh -t -oStrictHostKeyChecking=no -i $identity $user@$h << ENDSSH &> /dev/null
   echo "hostname"
   if [ -d /home/$user/CDN ]
   then
@@ -47,7 +47,8 @@ for h in "${host[@]}"; do
     cd /home/$user/CDN
   fi
   git reset --hard
-  git pull origin master
+  git checkout turn-in
+  git pull origin turn-in
 ENDSSH
 )
 done
@@ -55,18 +56,17 @@ done
 echo "Attempting deploy of dns server againt cs5700cdnproject.ccs.neu.edu"
 
 response=$(
-  ssh -t -oStrictHostKeyChecking=no -i $identity $user@cs5700cdnproject.ccs.neu.edu << ENDSSH
+  ssh -t -oStrictHostKeyChecking=no -i $identity $user@cs5700cdnproject.ccs.neu.edu << ENDSSH &> /dev/null
   if [ -d /home/$user/CDN ]
   then
-    rm -R /home/$user/CDN
+    cd /home/$user/CDN
   else
     git clone https://github.com/pietdaniel/CDN.git
     cd /home/$user/CDN
-    git checkout turn-in
-    git pull origin turn-in
   fi
   git reset --hard
-  git pull origin master
+  git checkout turn-in
+  git pull origin turn-in
 ENDSSH
 )
 
