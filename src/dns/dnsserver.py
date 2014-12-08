@@ -44,22 +44,29 @@ def run(port, name, config):
 
 def handle_response(ip_address, config):
     response = config.replica_map['us-east'][0]
+    print 'Attempting to get min latency from db'
+
     db_result = database.get_latencies(ip=ip_address)
     if db_result and len(db_result) > 0:
+        print "Found results"
         min_latency = 1000000
         min_server = None
         for result in db_result:
             if result[3] < min_latency:
                 min_latency = result[3]
                 min_server = result[2]
+        print 'Found min server %s' % min_server
         return min_server
     else:
+        print 'No server found, sending latency requests for ip %s' % ip_address
         for key in config.replica_map:
             replica_ip = config.replica_map[key][0]
+            print 'Sending to %s' % replica_ip
             messenger.send_latency_request(replica_ip, config.port, ip_address)
 
     closest = location.get_closest(ip_address)
     if closest:
+        print 'Found closest'
         response = closest.values()[0][0]
     return response
 

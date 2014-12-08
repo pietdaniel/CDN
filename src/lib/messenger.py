@@ -1,9 +1,19 @@
-import subprocess, re, urllib2
+import subprocess, re, urllib2, socket
 
 def send_latency_request(host, port, ip):
-    request = urllib2.Request("http://%s:%s" % (host, str(port)), headers={"X-Latency-Check":str(ip)})
-    contents = urllib2.urlopen(request).read()
-    print contents
+    print 'Sending latency request %s %s %s' % (host, str(port), ip)
+    try:
+        try:
+            request = urllib2.Request("http://%s:%s" % (host, str(port)), headers={"X-Latency-Check":str(ip)})
+            contents = urllib2.urlopen(request).read()
+        except:
+            host = socket.gethostbyaddr(host)[0]
+            request = urllib2.Request("http://%s:%s" % (host, str(port)), headers={"X-Latency-Check":str(ip)})
+            contents = urllib2.urlopen(request).read()
+        print contents
+    except:
+        print "Error in send latency request"
+        return False
 
 def recieve_latency_response(request):
     regex = re.compile("{lr:(?P<ip>.*):(?P<latency>[0-9]*\.[0-9]*)")
