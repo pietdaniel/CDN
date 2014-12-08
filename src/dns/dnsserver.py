@@ -35,6 +35,6 @@ def handle_response(ip_address, config):
     response = config.replica_map['us-east'][0]
     closest = location.get_closest(ip_address)
     if closest:
-        response = closest.pop()[2]
+        response = closest.values()[0][0]
     return response
 

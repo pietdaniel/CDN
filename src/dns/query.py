@@ -35,7 +35,7 @@ class Query:
             # ip bytes
             try:
                 packet+=str.join('',map(lambda x: chr(int(x)), ip.split('.')))
-            except:
+            except AttributeError as e:
                 print ip
                 raise e
         return packet
