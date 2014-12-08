@@ -1,9 +1,9 @@
 #!/bin/bash
 
-
 OPTINDEX=1
 
 # Initialize our own variables:
+
 port=""
 origin=""
 name=""
@@ -12,39 +12,39 @@ identity=""
 numhost=$(wc -l < ./ec2-hosts.txt)
 
 while getopts "p:o:n:u:i:" opt; do
-    case "$opt" in
+  case "$opt" in
     p)  port=$OPTARG
-        ;;
+      ;;
     o)  origin=$OPTARG
-        ;;
+      ;;
     n)  name=$OPTARG
-        ;;
+      ;;
     u)	user=$OPTARG
-	;;
+      ;;
     i)  identity=$OPTARG
-	;;
-    esac
+      ;;
+  esac
 done
+
 shift $((OPTIND-1))
-#echo "port=$port, origin=$origin, name=$name, user=$user, identity=$identity, Not Parsed: $@"
+
+# echo "port=$port, origin=$origin, name=$name, user=$user, identity=$identity, Not Parsed: $@"
 
 i=0
 host=($(cut -d$'\t' -f1 ./ec2-hosts.txt))
 
-for h in "${host[@]}"
-do
-    ssh -t  -oStrictHostKeyChecking=no -i $identity $user@$h << ENDSSH
-    cd /home/$user/CDN
-    nohup ./httpserver -p $port -o $origin > http.out 2> http.err < /dev/null &
-ENDSSH
+for h in "${host[@]}"; do
+  ssh -t  -oStrictHostKeyChecking=no -i $identity $user@$h << ENDSSH;
+  cd /home/$user/CDN;
+  nohup ./httpserver -p $port -o $origin > http.out 2> http.err < /dev/null &;
+  ENDSSH;
 done
 
 ssh -t  -oStrictHostKeyChecking=no -i $identity $user@cs5700cdnproject.ccs.neu.edu << ENDSSH
-    cd /home/$user/CDN
-    nohup ./dnsserver -p $port -n $name > dns.out 2> dns.err < /dev/null &
+  cd /home/$user/CDN
+  nohup ./dnsserver -p $port -n $name > dns.out 2> dns.err < /dev/null &
 ENDSSH
 
-for h in "${host[@]}"
-do 
-	curl http://$h:$port/ > /dev/null
+for h in "${host[@]}"; do
+  curl http://$h:$port/ > /dev/null
 done

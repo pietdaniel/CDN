@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 OPTINDEX=1
 
 # Initialize our own variables:
@@ -12,18 +11,18 @@ identity=""
 numhost=$(wc -l < ./ec2-hosts.txt)
 
 while getopts "p:o:n:u:i:" opt; do
-    case "$opt" in
+  case "$opt" in
     p)  port=$OPTARG
-        ;;
+      ;;
     o)  origin=$OPTARG
-        ;;
+      ;;
     n)  name=$OPTARG
-        ;;
+      ;;
     u)	user=$OPTARG
-	;;
+      ;;
     i)  identity=$OPTARG
-	;;
-    esac
+      ;;
+  esac
 done
 shift $((OPTIND-1))
 #echo "port=$port, origin=$origin, name=$name, user=$user, identity=$identity, Not Parsed: $@"
@@ -33,32 +32,32 @@ host=($(cut -d$'\t' -f1 ./ec2-hosts.txt))
 
 for h in "${host[@]}"
 do
-    response=$(
-    ssh -t -oStrictHostKeyChecking=no -i $identity $user@$h << ENDSSH
-    if [ -d /home/$user/CDN ]
-    then
-        cd /home/$user/CDN
-    else
-        git clone https://github.com/pietdaniel/CDN.git
-        cd /home/$user/CDN
-    fi
-    git reset --hard
-    git pull origin master
-ENDSSH
-)
+  response=$(
+  ssh -t -oStrictHostKeyChecking=no -i $identity $user@$h << ENDSSH
+  if [ -d /home/$user/CDN ]
+  then
+    cd /home/$user/CDN
+  else
+    git clone https://github.com/pietdaniel/CDN.git
+    cd /home/$user/CDN
+  fi
+  git reset --hard
+  git pull origin master
+  ENDSSH
+  )
 done
 
 response=$(
-    ssh -t -oStrictHostKeyChecking=no -i $identity $user@cs5700cdnproject.ccs.neu.edu << ENDSSH
-    if [ -d /home/$user/CDN ]
-    then
-        cd /home/$user/CDN
-    else
-        git clone https://github.com/pietdaniel/CDN.git
-        cd /home/$user/CDN
-    fi
-    git reset --hard
-    git pull origin master
+ssh -t -oStrictHostKeyChecking=no -i $identity $user@cs5700cdnproject.ccs.neu.edu << ENDSSH
+if [ -d /home/$user/CDN ]
+then
+  cd /home/$user/CDN
+else
+  git clone https://github.com/pietdaniel/CDN.git
+  cd /home/$user/CDN
+fi
+git reset --hard
+git pull origin master
 ENDSSH
 )
 
