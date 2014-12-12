@@ -29,7 +29,6 @@ class HttpHandler(BaseHTTPRequestHandler):
             self.cacheObjects.insert(0, self.path)
         except KeyError as e:
             # cache miss
-            print "Miss"
             try:
                 response = opener.open(request)
                 self.make_headers(response)
