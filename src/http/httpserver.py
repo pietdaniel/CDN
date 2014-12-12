@@ -23,13 +23,10 @@ class HttpHandler(BaseHTTPRequestHandler):
             print "Miss"
             try:
                 response = urllib2.urlopen(request)
-                self.make_headers(200)
+                self.make_headers(response.status)
                 data = response.read()
                 print sys.getsizeof(bytes(self.cache))
                 if sys.getsizeof(bytes(self.cache)) > 9000000:
-                    print "################################"
-                    print "PURGING"
-                    print "################################"
                     del self.cache[self.cacheObjects.pop()]
                 self.cache[self.path] = data
                 self.cacheObjects.insert(0, self.path)
