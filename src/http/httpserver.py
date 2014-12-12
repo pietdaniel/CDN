@@ -35,7 +35,7 @@ class HttpHandler(BaseHTTPRequestHandler):
             # cache miss
             print "Miss"
             try:
-                response = urllib2.request.urlopen(request)
+                response = opener.open(request)
                 print response.code
                 #self.make_headers(response.code)
                 data = response.read()
