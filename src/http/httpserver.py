@@ -18,6 +18,8 @@ class HttpHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         request = "http://" + self.origin + ":8080" + self.path
+        opener = urllib2.build_opener(RedirectHandler())
+        urllib2.install_opener(opener)
         try:
             response = self.cache[self.path]
             # cache hit
@@ -30,8 +32,6 @@ class HttpHandler(BaseHTTPRequestHandler):
             # cache miss
             print "Miss"
             try:
-                opener = urllib2.build_opener(RedirectHandler())
-                urllib2.install_opener(opener)
                 response = urllib2.urlopen(request)
                 print response.code
                 self.make_headers(response.code)
