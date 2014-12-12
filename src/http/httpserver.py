@@ -32,7 +32,7 @@ class HttpHandler(BaseHTTPRequestHandler):
             try:
                 response = opener.open(request)
                 print response.code
-                #self.make_headers(response.code)
+                self.make_headers(response.code)
                 data = response.read()
                 print sys.getsizeof(bytes(self.cache))
                 if sys.getsizeof(bytes(self.cache)) > 9000000:
@@ -40,7 +40,7 @@ class HttpHandler(BaseHTTPRequestHandler):
                 self.cache[self.path] = data
                 self.cacheObjects.insert(0, self.path)
             except urllib2.HTTPError as e:
-                #self.make_headers(404)
+                self.make_headers(404)
                 data = e.read()
             self.wfile.write(response)
         
