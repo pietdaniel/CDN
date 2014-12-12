@@ -28,7 +28,7 @@ class HttpHandler(BaseHTTPRequestHandler):
             # cache miss
             print "Miss"
             try:
-                opener = urllib2.build_opener(HttpHandler())
+                opener = urllib2.build_opener(RedirectHandler())
                 urllib2.install_opener(opener)
                 response = urllib2.urlopen(request)
                 self.make_headers(response.code)
