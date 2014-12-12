@@ -1,5 +1,5 @@
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
-import urllib2
+import urllib2, requests
 import sys
 
 class HttpHandler(BaseHTTPRequestHandler):
@@ -22,9 +22,9 @@ class HttpHandler(BaseHTTPRequestHandler):
             # cache miss
             print "Miss"
             try:
-                response = urllib2.urlopen(request)
-                self.make_headers(response.getcode())
-                data = response.read()
+                response = requests.get(request, allow_redirects=False)
+                self.make_headers(response.status_code)
+                data = response.content
                 print sys.getsizeof(bytes(self.cache))
                 if sys.getsizeof(bytes(self.cache)) > 9000000:
                     del self.cache[self.cacheObjects.pop()]
