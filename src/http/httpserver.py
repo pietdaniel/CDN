@@ -11,7 +11,7 @@ class NoRedirectHandler(urllib2.HTTPErrorProcessor):
 class HttpHandler(BaseHTTPRequestHandler):
 
     def make_headers(self, response):
-        self.send_response(status)
+        self.send_response(response.code)
         self.send_header('Location', response.info().get('Location'))
         self.send_header('Content-type','text/html')
         self.end_headers()
