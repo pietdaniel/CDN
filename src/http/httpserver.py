@@ -4,6 +4,7 @@ import sys
 
 class NoRedirectHandler(urllib2.HTTPErrorProcessor):
     def http_response(self, request, response):
+        print response
         return response
 
 
@@ -42,7 +43,7 @@ class HttpHandler(BaseHTTPRequestHandler):
             except urllib2.HTTPError as e:
                 self.make_headers(404)
                 data = e.read()
-            self.wfile.write(response)
+            self.wfile.write(data)
         
 
 def run(port, origin):
