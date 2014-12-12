@@ -48,7 +48,7 @@ class HttpHandler(BaseHTTPRequestHandler):
                 #self.make_headers(404)
                 data = e.read()
             self.wfile.write(response)
-        '''
+        
 
 def run(port, origin):
     try:
