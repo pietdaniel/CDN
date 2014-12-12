@@ -32,7 +32,7 @@ class HttpHandler(BaseHTTPRequestHandler):
             try:
                 response = opener.open(request)
                 self.send_response(response.code)
-                self.headers = response.info().headers
+                print response.info().headers
                 self.end_headers()
                 data = response.read()
                 print sys.getsizeof(bytes(self.cache))
