@@ -1,6 +1,12 @@
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
-import urllib2, requests
+import urllib2
 import sys
+
+class RedirectHandler(urllib2.HTTPRedirectHandler):
+    def http_error_302(self, req, fp, code, msg, headers):
+        return urllib2.HTTPRedirectHandler.http_error_302(self, req, fp, code, msg, headers)
+
+    http_error_301 = http_error_303 = http_error_307 = http_error_302
 
 class HttpHandler(BaseHTTPRequestHandler):
     def make_headers(self, status):
@@ -22,9 +28,11 @@ class HttpHandler(BaseHTTPRequestHandler):
             # cache miss
             print "Miss"
             try:
-                response = requests.get(request, allow_redirects=False)
-                self.make_headers(response.status_code)
-                data = response.content
+                opener = urllib2.build_opener(RedirectHandler)
+                urllib2.install_opener(opener)
+                response = urllib2.urlopen(request)
+                self.make_headers(response.getcode())
+                data = response.read()
                 print sys.getsizeof(bytes(self.cache))
                 if sys.getsizeof(bytes(self.cache)) > 9000000:
                     del self.cache[self.cacheObjects.pop()]
