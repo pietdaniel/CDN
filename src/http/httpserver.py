@@ -33,6 +33,7 @@ class HttpHandler(BaseHTTPRequestHandler):
                 response = opener.open(request)
                 self.send_response(response.code)
                 self.headers = response.info()
+                self.end_headers()
                 data = response.read()
                 print sys.getsizeof(bytes(self.cache))
                 if sys.getsizeof(bytes(self.cache)) > 9000000:
