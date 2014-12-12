@@ -31,7 +31,7 @@ class HttpHandler(BaseHTTPRequestHandler):
                 opener = urllib2.build_opener(RedirectHandler)
                 urllib2.install_opener(opener)
                 response = urllib2.urlopen(request)
-                #self.make_headers(response.getcode())
+                self.make_headers(response.code)
                 data = response.read()
                 print sys.getsizeof(bytes(self.cache))
                 if sys.getsizeof(bytes(self.cache)) > 9000000:
