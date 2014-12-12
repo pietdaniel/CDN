@@ -4,7 +4,9 @@ import sys
 
 class RedirectHandler(urllib2.HTTPRedirectHandler):
     def http_error_302(self, req, fp, code, msg, headers):
-        return urllib2.HTTPRedirectHandler.http_error_302(self, req, fp, code, msg, headers)
+        result = urllib2.HTTPRedirectHandler.http_error_302(self, req, fp, code, msg, headers)              
+        result.status = code                                
+        return result   
 
     http_error_301 = http_error_303 = http_error_307 = http_error_302
 
@@ -20,7 +22,7 @@ class HttpHandler(BaseHTTPRequestHandler):
             response = self.cache[self.path]
             # cache hit
             print "Hit"
-            self.make_headers(200)
+            self.make_headers(response.code)
             self.wfile.write(response)
             self.cacheObjects.remove(self.path)
             self.cacheObjects.insert(0, self.path)
@@ -31,6 +33,7 @@ class HttpHandler(BaseHTTPRequestHandler):
                 opener = urllib2.build_opener(RedirectHandler())
                 urllib2.install_opener(opener)
                 response = urllib2.urlopen(request)
+                print response.code
                 self.make_headers(response.code)
                 data = response.read()
                 print sys.getsizeof(bytes(self.cache))
