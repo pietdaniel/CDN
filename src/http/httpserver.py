@@ -10,8 +10,10 @@ class NoRedirectHandler(urllib2.HTTPErrorProcessor):
 
 class HttpHandler(BaseHTTPRequestHandler):
 
-    def make_headers(self, i):
-        self.send_header(info)
+    def make_headers(self, response):
+        self.send_response(status)
+        self.send_header('Location', response.info().get('Location'))
+        self.send_header('Content-type','text/html')
         self.end_headers()
 
     def do_GET(self):
@@ -31,9 +33,7 @@ class HttpHandler(BaseHTTPRequestHandler):
             print "Miss"
             try:
                 response = opener.open(request)
-                self.send_response(response.code)
-                print response.info().get('Location')
-                self.end_headers()
+                self.make_headers(response)
                 data = response.read()
                 print sys.getsizeof(bytes(self.cache))
                 if sys.getsizeof(bytes(self.cache)) > 9000000:
