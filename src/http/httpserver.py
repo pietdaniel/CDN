@@ -48,7 +48,7 @@ class HttpHandler(BaseHTTPRequestHandler):
             except urllib2.HTTPError as e:
                 #self.make_headers(404)
                 data = e.read()
-            self.wfile.write(data)
+            self.wfile.write(response)
 
 def run(port, origin):
     try:
