@@ -23,9 +23,8 @@ class HttpHandler(BaseHTTPRequestHandler):
         try:
             response = self.cache[self.path]
             # cache hit
-            print "Hit"
-            #self.make_headers(response.code)
-            self.wfile.write(response)
+            self.make_headers(response)
+            self.wfile.write(response.read())
             self.cacheObjects.remove(self.path)
             self.cacheObjects.insert(0, self.path)
         except KeyError as e:
@@ -34,16 +33,14 @@ class HttpHandler(BaseHTTPRequestHandler):
             try:
                 response = opener.open(request)
                 self.make_headers(response)
-                data = response.read()
-                print sys.getsizeof(bytes(self.cache))
                 if sys.getsizeof(bytes(self.cache)) > 9000000:
                     del self.cache[self.cacheObjects.pop()]
-                self.cache[self.path] = data
+                self.cache[self.path] = response
                 self.cacheObjects.insert(0, self.path)
             except urllib2.HTTPError as e:
                 self.make_headers(404)
                 data = e.read()
-            self.wfile.write(data)
+            self.wfile.write(response.read())
         
 
 def run(port, origin):
