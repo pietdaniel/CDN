@@ -13,18 +13,12 @@ class MyRedirectHandler(urllib2.HTTPRedirectHandler):
     http_error_302 = http_error_303 = http_error_307 = http_error_301
 
 class HttpHandler(BaseHTTPRequestHandler):
-    '''
+
     def make_headers(self, status):
         self.send_response(status)
         self.send_header('Content-type','text/html')
         self.end_headers()
-    '''
-    def do_GET(self):
-        request = "http://" + self.origin + ":8080" + self.path
-        opener = urllib2.build_opener(MyRedirectHandler())
-        urllib2.install_opener(opener)
-        self.copyfile(urllib.urlopen(request), self.wfile)
-    '''
+
     def do_GET(self):
         request = "http://" + self.origin + ":8080" + self.path
         opener = urllib2.build_opener(MyRedirectHandler())
@@ -41,7 +35,7 @@ class HttpHandler(BaseHTTPRequestHandler):
             # cache miss
             print "Miss"
             try:
-                response = urllib2.urlopen(request)
+                response = urllib2.request.urlopen(request)
                 print response.code
                 #self.make_headers(response.code)
                 data = response.read()
