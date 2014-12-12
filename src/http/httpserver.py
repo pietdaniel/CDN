@@ -2,15 +2,10 @@ from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 import urllib2
 import sys
 
-class MyRedirectHandler(urllib2.HTTPRedirectHandler):
-    def http_error_301(self, req, fp, code, msg, headers):
-        result = urllib2.HTTPRedirectHandler.http_error_302(self, req, fp, code, msg, headers)              
-        result.status = code  
-        print "CODE:" 
-        print code                              
-        return result   
+class NoRedirectHandler(urllib2.HTTPErrorProcessor):
+    def http_response(self, request, response):
+        return response
 
-    http_error_302 = http_error_303 = http_error_307 = http_error_301
 
 class HttpHandler(BaseHTTPRequestHandler):
 
@@ -21,7 +16,7 @@ class HttpHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         request = "http://" + self.origin + ":8080" + self.path
-        opener = urllib2.build_opener(MyRedirectHandler())
+        opener = urllib2.build_opener(NoRedirectHandler())
         urllib2.install_opener(opener)
         try:
             response = self.cache[self.path]
