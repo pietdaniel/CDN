@@ -23,7 +23,7 @@ class HttpHandler(BaseHTTPRequestHandler):
             print "Miss"
             try:
                 response = urllib2.urlopen(request)
-                self.make_headers(response.status)
+                self.make_headers(response.getcode())
                 data = response.read()
                 print sys.getsizeof(bytes(self.cache))
                 if sys.getsizeof(bytes(self.cache)) > 9000000:
