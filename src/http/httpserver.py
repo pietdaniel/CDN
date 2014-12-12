@@ -31,7 +31,7 @@ class HttpHandler(BaseHTTPRequestHandler):
             print "Miss"
             try:
                 response = opener.open(request)
-                self.send_response(request.code)
+                self.send_response(response.code)
                 self.headers = response.info()
                 data = response.read()
                 print sys.getsizeof(bytes(self.cache))
