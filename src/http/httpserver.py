@@ -19,7 +19,12 @@ class HttpHandler(BaseHTTPRequestHandler):
         self.send_header('Content-type','text/html')
         self.end_headers()
     '''
-
+    def do_GET(self):
+        request = "http://" + self.origin + ":8080" + self.path
+        opener = urllib2.build_opener(MyRedirectHandler())
+        urllib2.install_opener(opener)
+        self.copyfile(urllib.urlopen(request), self.wfile)
+    '''
     def do_GET(self):
         request = "http://" + self.origin + ":8080" + self.path
         opener = urllib2.build_opener(MyRedirectHandler())
@@ -49,6 +54,7 @@ class HttpHandler(BaseHTTPRequestHandler):
                 #self.make_headers(404)
                 data = e.read()
             self.wfile.write(response)
+        '''
 
 def run(port, origin):
     try:
